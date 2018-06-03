@@ -1,0 +1,274 @@
+python3 deepBach.py -t 5 --ext model2
+/home/bastien/.local/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+Namespace(batch_size_train=128, dataset='', ext='model2', length=160, midi_file=None, name='deepbach', num_dense=200, num_iterations=20000, num_units_lstm=[200, 200], output_file='', overwrite=False, parallel=1, reharmonization=None, steps_per_epoch=500, timesteps=16, train=5, validation_steps=20)
+/home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models_zoo.py:34: UserWarning: Update your `Dense` call to the Keras 2 API: `Dense(input_dim=255, name="embedding_left", units=200)`
+  output_dim=num_dense, name='embedding_left')
+/home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models_zoo.py:36: UserWarning: Update your `Dense` call to the Keras 2 API: `Dense(input_dim=255, name="embedding_right", units=200)`
+  output_dim=num_dense, name='embedding_right')
+/home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models_zoo.py:72: UserWarning: Update your `Model` call to the Keras 2 API: `Model(inputs=[<tf.Tenso..., outputs=Tensor("pi...)`
+  output=pitch_prediction)
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+left_features (InputLayer)      (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+left_metas (InputLayer)         (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+right_features (InputLayer)     (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+right_metas (InputLayer)        (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+concatenate_1 (Concatenate)     (None, 16, 255)      0           left_features[0][0]              
+                                                                 left_metas[0][0]                 
+__________________________________________________________________________________________________
+central_features (InputLayer)   (None, 181)          0                                            
+__________________________________________________________________________________________________
+central_metas (InputLayer)      (None, 22)           0                                            
+__________________________________________________________________________________________________
+concatenate_2 (Concatenate)     (None, 16, 255)      0           right_features[0][0]             
+                                                                 right_metas[0][0]                
+__________________________________________________________________________________________________
+time_distributed_1 (TimeDistrib (None, 16, 200)      51200       concatenate_1[0][0]              
+__________________________________________________________________________________________________
+concatenate_3 (Concatenate)     (None, 203)          0           central_features[0][0]           
+                                                                 central_metas[0][0]              
+__________________________________________________________________________________________________
+time_distributed_2 (TimeDistrib (None, 16, 200)      51200       concatenate_2[0][0]              
+__________________________________________________________________________________________________
+lstm_left_0 (LSTM)              (None, 16, 200)      320800      time_distributed_1[0][0]         
+__________________________________________________________________________________________________
+dense_1 (Dense)                 (None, 200)          40800       concatenate_3[0][0]              
+__________________________________________________________________________________________________
+lstm_right_0 (LSTM)             (None, 16, 200)      320800      time_distributed_2[0][0]         
+__________________________________________________________________________________________________
+lstm_left_1 (LSTM)              (None, 200)          320800      lstm_left_0[0][0]                
+__________________________________________________________________________________________________
+dense_2 (Dense)                 (None, 200)          40200       dense_1[0][0]                    
+__________________________________________________________________________________________________
+lstm_right_1 (LSTM)             (None, 200)          320800      lstm_right_0[0][0]               
+__________________________________________________________________________________________________
+concatenate_4 (Concatenate)     (None, 600)          0           lstm_left_1[0][0]                
+                                                                 dense_2[0][0]                    
+                                                                 lstm_right_1[0][0]               
+__________________________________________________________________________________________________
+dense_3 (Dense)                 (None, 200)          120200      concatenate_4[0][0]              
+__________________________________________________________________________________________________
+pitch_prediction (Dense)        (None, 52)           10452       dense_3[0][0]                    
+==================================================================================================
+Total params: 1,597,252
+Trainable params: 1,597,252
+Non-trainable params: 0
+__________________________________________________________________________________________________
+2018-06-02 23:02:36.406196: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_0 saved
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+left_features (InputLayer)      (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+left_metas (InputLayer)         (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+right_features (InputLayer)     (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+right_metas (InputLayer)        (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+concatenate_5 (Concatenate)     (None, 16, 255)      0           left_features[0][0]              
+                                                                 left_metas[0][0]                 
+__________________________________________________________________________________________________
+central_features (InputLayer)   (None, 179)          0                                            
+__________________________________________________________________________________________________
+central_metas (InputLayer)      (None, 22)           0                                            
+__________________________________________________________________________________________________
+concatenate_6 (Concatenate)     (None, 16, 255)      0           right_features[0][0]             
+                                                                 right_metas[0][0]                
+__________________________________________________________________________________________________
+time_distributed_3 (TimeDistrib (None, 16, 200)      51200       concatenate_5[0][0]              
+__________________________________________________________________________________________________
+concatenate_7 (Concatenate)     (None, 201)          0           central_features[0][0]           
+                                                                 central_metas[0][0]              
+__________________________________________________________________________________________________
+time_distributed_4 (TimeDistrib (None, 16, 200)      51200       concatenate_6[0][0]              
+__________________________________________________________________________________________________
+lstm_left_0 (LSTM)              (None, 16, 200)      320800      time_distributed_3[0][0]         
+__________________________________________________________________________________________________
+dense_4 (Dense)                 (None, 200)          40400       concatenate_7[0][0]              
+__________________________________________________________________________________________________
+lstm_right_0 (LSTM)             (None, 16, 200)      320800      time_distributed_4[0][0]         
+__________________________________________________________________________________________________
+lstm_left_1 (LSTM)              (None, 200)          320800      lstm_left_0[0][0]                
+__________________________________________________________________________________________________
+dense_5 (Dense)                 (None, 200)          40200       dense_4[0][0]                    
+__________________________________________________________________________________________________
+lstm_right_1 (LSTM)             (None, 200)          320800      lstm_right_0[0][0]               
+__________________________________________________________________________________________________
+concatenate_8 (Concatenate)     (None, 600)          0           lstm_left_1[0][0]                
+                                                                 dense_5[0][0]                    
+                                                                 lstm_right_1[0][0]               
+__________________________________________________________________________________________________
+dense_6 (Dense)                 (None, 200)          120200      concatenate_8[0][0]              
+__________________________________________________________________________________________________
+pitch_prediction (Dense)        (None, 54)           10854       dense_6[0][0]                    
+==================================================================================================
+Total params: 1,597,254
+Trainable params: 1,597,254
+Non-trainable params: 0
+__________________________________________________________________________________________________
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_1 saved
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+left_features (InputLayer)      (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+left_metas (InputLayer)         (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+right_features (InputLayer)     (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+right_metas (InputLayer)        (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+concatenate_9 (Concatenate)     (None, 16, 255)      0           left_features[0][0]              
+                                                                 left_metas[0][0]                 
+__________________________________________________________________________________________________
+central_features (InputLayer)   (None, 179)          0                                            
+__________________________________________________________________________________________________
+central_metas (InputLayer)      (None, 22)           0                                            
+__________________________________________________________________________________________________
+concatenate_10 (Concatenate)    (None, 16, 255)      0           right_features[0][0]             
+                                                                 right_metas[0][0]                
+__________________________________________________________________________________________________
+time_distributed_5 (TimeDistrib (None, 16, 200)      51200       concatenate_9[0][0]              
+__________________________________________________________________________________________________
+concatenate_11 (Concatenate)    (None, 201)          0           central_features[0][0]           
+                                                                 central_metas[0][0]              
+__________________________________________________________________________________________________
+time_distributed_6 (TimeDistrib (None, 16, 200)      51200       concatenate_10[0][0]             
+__________________________________________________________________________________________________
+lstm_left_0 (LSTM)              (None, 16, 200)      320800      time_distributed_5[0][0]         
+__________________________________________________________________________________________________
+dense_7 (Dense)                 (None, 200)          40400       concatenate_11[0][0]             
+__________________________________________________________________________________________________
+lstm_right_0 (LSTM)             (None, 16, 200)      320800      time_distributed_6[0][0]         
+__________________________________________________________________________________________________
+lstm_left_1 (LSTM)              (None, 200)          320800      lstm_left_0[0][0]                
+__________________________________________________________________________________________________
+dense_8 (Dense)                 (None, 200)          40200       dense_7[0][0]                    
+__________________________________________________________________________________________________
+lstm_right_1 (LSTM)             (None, 200)          320800      lstm_right_0[0][0]               
+__________________________________________________________________________________________________
+concatenate_12 (Concatenate)    (None, 600)          0           lstm_left_1[0][0]                
+                                                                 dense_8[0][0]                    
+                                                                 lstm_right_1[0][0]               
+__________________________________________________________________________________________________
+dense_9 (Dense)                 (None, 200)          120200      concatenate_12[0][0]             
+__________________________________________________________________________________________________
+pitch_prediction (Dense)        (None, 54)           10854       dense_9[0][0]                    
+==================================================================================================
+Total params: 1,597,254
+Trainable params: 1,597,254
+Non-trainable params: 0
+__________________________________________________________________________________________________
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_2 saved
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+left_features (InputLayer)      (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+left_metas (InputLayer)         (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+right_features (InputLayer)     (None, 16, 233)      0                                            
+__________________________________________________________________________________________________
+right_metas (InputLayer)        (None, 16, 22)       0                                            
+__________________________________________________________________________________________________
+concatenate_13 (Concatenate)    (None, 16, 255)      0           left_features[0][0]              
+                                                                 left_metas[0][0]                 
+__________________________________________________________________________________________________
+central_features (InputLayer)   (None, 160)          0                                            
+__________________________________________________________________________________________________
+central_metas (InputLayer)      (None, 22)           0                                            
+__________________________________________________________________________________________________
+concatenate_14 (Concatenate)    (None, 16, 255)      0           right_features[0][0]             
+                                                                 right_metas[0][0]                
+__________________________________________________________________________________________________
+time_distributed_7 (TimeDistrib (None, 16, 200)      51200       concatenate_13[0][0]             
+__________________________________________________________________________________________________
+concatenate_15 (Concatenate)    (None, 182)          0           central_features[0][0]           
+                                                                 central_metas[0][0]              
+__________________________________________________________________________________________________
+time_distributed_8 (TimeDistrib (None, 16, 200)      51200       concatenate_14[0][0]             
+__________________________________________________________________________________________________
+lstm_left_0 (LSTM)              (None, 16, 200)      320800      time_distributed_7[0][0]         
+__________________________________________________________________________________________________
+dense_10 (Dense)                (None, 200)          36600       concatenate_15[0][0]             
+__________________________________________________________________________________________________
+lstm_right_0 (LSTM)             (None, 16, 200)      320800      time_distributed_8[0][0]         
+__________________________________________________________________________________________________
+lstm_left_1 (LSTM)              (None, 200)          320800      lstm_left_0[0][0]                
+__________________________________________________________________________________________________
+dense_11 (Dense)                (None, 200)          40200       dense_10[0][0]                   
+__________________________________________________________________________________________________
+lstm_right_1 (LSTM)             (None, 200)          320800      lstm_right_0[0][0]               
+__________________________________________________________________________________________________
+concatenate_16 (Concatenate)    (None, 600)          0           lstm_left_1[0][0]                
+                                                                 dense_11[0][0]                   
+                                                                 lstm_right_1[0][0]               
+__________________________________________________________________________________________________
+dense_12 (Dense)                (None, 200)          120200      concatenate_16[0][0]             
+__________________________________________________________________________________________________
+pitch_prediction (Dense)        (None, 73)           14673       dense_12[0][0]                   
+==================================================================================================
+Total params: 1,597,273
+Trainable params: 1,597,273
+Non-trainable params: 0
+__________________________________________________________________________________________________
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_3 saved
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_0 loaded
+/home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/model_manager.py:764: UserWarning: Update your `fit_generator` call to the Keras 2 API: `fit_generator(<generator..., epochs=5, verbose=1, validation_data=<generator..., validation_steps=20, steps_per_epoch=500)`
+  validation_steps=validation_steps)
+Epoch 1/5
+500/500 [==============================] - 174s 348ms/step - loss: 0.7026 - acc: 0.8202 - val_loss: 0.4221 - val_acc: 0.8773
+Epoch 2/5
+500/500 [==============================] - 173s 345ms/step - loss: 0.4091 - acc: 0.8808 - val_loss: 0.3268 - val_acc: 0.9059
+Epoch 3/5
+500/500 [==============================] - 172s 343ms/step - loss: 0.3332 - acc: 0.9005 - val_loss: 0.3096 - val_acc: 0.9086
+Epoch 4/5
+500/500 [==============================] - 176s 351ms/step - loss: 0.2598 - acc: 0.9195 - val_loss: 0.1969 - val_acc: 0.9379
+Epoch 5/5
+500/500 [==============================] - 174s 349ms/step - loss: 0.2055 - acc: 0.9339 - val_loss: 0.1875 - val_acc: 0.9430
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_0 saved
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_1 loaded
+Epoch 1/5
+500/500 [==============================] - 200s 399ms/step - loss: 0.8040 - acc: 0.8005 - val_loss: 0.5683 - val_acc: 0.8465
+Epoch 2/5
+500/500 [==============================] - 175s 349ms/step - loss: 0.5279 - acc: 0.8526 - val_loss: 0.4176 - val_acc: 0.8797
+Epoch 3/5
+500/500 [==============================] - 168s 336ms/step - loss: 0.4222 - acc: 0.8732 - val_loss: 0.3414 - val_acc: 0.8961
+Epoch 4/5
+500/500 [==============================] - 166s 332ms/step - loss: 0.3149 - acc: 0.9046 - val_loss: 0.2877 - val_acc: 0.9125
+Epoch 5/5
+500/500 [==============================] - 161s 321ms/step - loss: 0.2637 - acc: 0.9201 - val_loss: 0.2862 - val_acc: 0.9129
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_1 saved
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_2 loaded
+Epoch 1/5
+500/500 [==============================] - 164s 328ms/step - loss: 0.8439 - acc: 0.7852 - val_loss: 0.5817 - val_acc: 0.8484
+Epoch 2/5
+500/500 [==============================] - 159s 319ms/step - loss: 0.5582 - acc: 0.8423 - val_loss: 0.4690 - val_acc: 0.8699
+Epoch 3/5
+500/500 [==============================] - 160s 320ms/step - loss: 0.4576 - acc: 0.8639 - val_loss: 0.3978 - val_acc: 0.8824
+Epoch 4/5
+500/500 [==============================] - 159s 319ms/step - loss: 0.3818 - acc: 0.8829 - val_loss: 0.3470 - val_acc: 0.8918
+Epoch 5/5
+500/500 [==============================] - 160s 320ms/step - loss: 0.3262 - acc: 0.9005 - val_loss: 0.3338 - val_acc: 0.9031
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_2 saved
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_3 loaded
+Epoch 1/5
+500/500 [==============================] - 166s 332ms/step - loss: 0.9332 - acc: 0.7715 - val_loss: 0.6800 - val_acc: 0.8305
+Epoch 2/5
+500/500 [==============================] - 169s 339ms/step - loss: 0.5953 - acc: 0.8300 - val_loss: 0.5312 - val_acc: 0.8469
+Epoch 3/5
+500/500 [==============================] - 162s 323ms/step - loss: 0.4413 - acc: 0.8649 - val_loss: 0.3412 - val_acc: 0.8926
+Epoch 4/5
+500/500 [==============================] - 158s 316ms/step - loss: 0.3300 - acc: 0.8988 - val_loss: 0.3248 - val_acc: 0.9074
+Epoch 5/5
+500/500 [==============================] - 156s 313ms/step - loss: 0.2719 - acc: 0.9158 - val_loss: 0.2918 - val_acc: 0.9129
+model /home/bastien/Bureau/DeepBach/DeepBach-master/DeepBach/models/deepbach_model2_3 saved
